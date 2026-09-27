@@ -158,12 +158,25 @@ Status do_encoding(EncodeInfo *encInfo)
 
 Status check_capacity(EncodeInfo *encInfo)
 {
-    encInfo->image_capacity = get_image_size_for_bmp(encInfo->fptr_src_image);
-    encInfo->size_secret_file = get_file_size(encInfo->fptr_secret);
-    if ((14 + encInfo->size_secret_file) * 8 > encInfo->image_capacity)
+    uint extn_size;
+    uint required_size;
+
+    encInfo->image_capacity =
+        get_image_size_for_bmp(encInfo->fptr_src_image);
+
+    encInfo->size_secret_file =
+        get_file_size(encInfo->fptr_secret);
+
+    extn_size = strlen(strrchr(encInfo->secret_fname, '.'));
+
+    required_size = 2 + 4 + extn_size + 4 +
+                    encInfo->size_secret_file;
+
+    if (required_size * 8 > encInfo->image_capacity)
     {
         return e_failure;
     }
+
     return e_success;
 }
 

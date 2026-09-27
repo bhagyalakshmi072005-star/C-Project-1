@@ -7,8 +7,11 @@ typedef struct _DecodeInfo
 {
     char *stego_image_fname;
     FILE *fptr_stego_image;
-    char *output_fname;
+
+    char *user_output_fname;
+    char output_fname[100];
     FILE *fptr_output;
+
     char extn_secret_file[5];
     int size_secret_file;
 
@@ -23,5 +26,6 @@ Status decode_secret_file_extn_size(DecodeInfo *decInfo);
 Status decode_secret_file_extn(DecodeInfo *decInfo);
 Status decode_secret_file_size(DecodeInfo *decInfo);
 Status decode_secret_file_data(DecodeInfo *decInfo);
+Status create_output_file(DecodeInfo *decInfo, char *user_name);
 Status do_decoding(DecodeInfo *decInfo);
 #endif

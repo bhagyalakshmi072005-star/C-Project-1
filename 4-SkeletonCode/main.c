@@ -7,11 +7,20 @@ int main(int argc, char *argv[])
 {
     EncodeInfo encInfo;
     DecodeInfo decInfo;
+
     if (argc < 2)
     {
         printf("Usage:\n");
-        printf("Encoding: ./lsb_steg -e <source.bmp> <secret.txt>\n");
-        printf("Decoding: ./lsb_steg -d <source.bmp>\n");
+        printf("Encoding: ./a.out -e <source.bmp> <secret.txt> [output.bmp]\n");
+        printf("Decoding: ./a.out -d <source.bmp> [output file]\n");
+        return 0;
+    }
+
+    if (argv[1][0] != '-')
+    {
+        printf("Usage:\n");
+        printf("Encoding: ./a.out -e <source.bmp> <secret.txt> [output.bmp]\n");
+        printf("Decoding: ./a.out -d <source.bmp> [output file]\n");
         return 0;
     }
 
@@ -19,7 +28,7 @@ int main(int argc, char *argv[])
     {
         if (argc < 4)
         {
-            printf("Usage: ./lsb_steg -e <source.bmp> <secret.txt>\n");
+            printf("Encoding usage: ./a.out -e <source.bmp> <secret.txt> [output.bmp]\n");
             return 0;
         }
 
@@ -39,7 +48,7 @@ int main(int argc, char *argv[])
     {
         if (argc < 3)
         {
-            printf("Usage: ./lsb_steg -d <source.bmp>\n");
+            printf("Decoding usage: ./a.out -d <source.bmp> [output file]\n");
             return 0;
         }
 
@@ -57,7 +66,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        printf("Unsupported operation\n");
+        printf("Usage:\n");
+        printf("Encoding: ./a.out -e <source.bmp> <secret.txt> [output.bmp]\n");
+        printf("Decoding: ./a.out -d <source.bmp> [output file]\n");
     }
 
     return 0;
