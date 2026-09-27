@@ -49,14 +49,11 @@ Status read_and_validate_decode_args(char *argv[], DecodeInfo *decInfo)
 
 Status open_decode_files(DecodeInfo *decInfo)
 {
-    decInfo->fptr_stego_image =
-        fopen(decInfo->stego_image_fname, "rb");
-
+    decInfo->fptr_stego_image = fopen(decInfo->stego_image_fname, "rb");
     if (decInfo->fptr_stego_image == NULL)
     {
         perror("fopen");
-        fprintf(stderr, "ERROR : Unable to open file %s\n",
-                decInfo->stego_image_fname);
+        fprintf(stderr, "ERROR : Unable to open file %s\n",decInfo->stego_image_fname);
         return e_failure;
     }
 
@@ -67,7 +64,6 @@ Status create_output_file(DecodeInfo *decInfo, char *user_name)
 {
     char *dot;
     char name[100];
-
     if (user_name == NULL)
     {
         strcpy(name, "decoded");
@@ -75,35 +71,27 @@ Status create_output_file(DecodeInfo *decInfo, char *user_name)
     else
     {
         strcpy(name, user_name);
-
-        dot = strrchr(name, '.');
-
+        dot=strrchr(name, '.');
         if (dot != NULL)
         {
             *dot = '\0';
         }
     }
-
     strcpy(decInfo->output_fname, name);
     strcat(decInfo->output_fname, decInfo->extn_secret_file);
-
     decInfo->fptr_output = fopen(decInfo->output_fname, "w");
-
     if (decInfo->fptr_output == NULL)
     {
         perror("fopen");
-        fprintf(stderr, "ERROR : Unable to create output file %s\n",
-                decInfo->output_fname);
+        fprintf(stderr, "ERROR : Unable to create output file %s\n",decInfo->output_fname);
         return e_failure;
     }
-
     return e_success;
 }
 
 char decode_byte_from_lsb(char *image_buffer)
 {
     char data=0;
-
     for (int i=0;i<8;i++)
     {
         data=data<<1;

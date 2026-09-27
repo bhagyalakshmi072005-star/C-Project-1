@@ -82,11 +82,8 @@ Status read_and_validate_encode_args(char *argv[], EncodeInfo *encInfo)
         printf("ERROR: Source image should be a .bmp file\n");
         return e_failure;
     }
-
     encInfo->src_image_fname = argv[2];
-
     encInfo->secret_fname = argv[3];
-
     if (argv[4] == NULL)
     {
         encInfo->stego_image_fname = "output.bmp";
@@ -101,12 +98,10 @@ Status read_and_validate_encode_args(char *argv[], EncodeInfo *encInfo)
 
         encInfo->stego_image_fname = argv[4];
     }
-
     if (open_files(encInfo) == e_failure)
     {
         return e_failure;
     }
-
     return e_success;
 }
 
@@ -117,8 +112,7 @@ Status do_encoding(EncodeInfo *encInfo)
         printf("ERROR: Insufficient capacity in image\n");
         return e_failure;
     }
-    if (copy_bmp_header(encInfo->fptr_src_image,
-                        encInfo->fptr_stego_image) == e_failure)
+    if (copy_bmp_header(encInfo->fptr_src_image,encInfo->fptr_stego_image) == e_failure)
     {
         printf("ERROR: Failed to copy BMP header\n");
         return e_failure;
@@ -160,23 +154,14 @@ Status check_capacity(EncodeInfo *encInfo)
 {
     uint extn_size;
     uint required_size;
-
-    encInfo->image_capacity =
-        get_image_size_for_bmp(encInfo->fptr_src_image);
-
-    encInfo->size_secret_file =
-        get_file_size(encInfo->fptr_secret);
-
+    encInfo->image_capacity=get_image_size_for_bmp(encInfo->fptr_src_image);
+    encInfo->size_secret_file=get_file_size(encInfo->fptr_secret);
     extn_size = strlen(strrchr(encInfo->secret_fname, '.'));
-
-    required_size = 2 + 4 + extn_size + 4 +
-                    encInfo->size_secret_file;
-
+    required_size = 2 + 4 + extn_size + 4 + encInfo->size_secret_file;
     if (required_size * 8 > encInfo->image_capacity)
     {
         return e_failure;
     }
-
     return e_success;
 }
 
